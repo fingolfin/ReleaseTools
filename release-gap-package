@@ -268,11 +268,14 @@ esac
 if [ -f makedoc.g ] ; then
     notice "Building GAP package documentation (using makedoc.g)"
     run_gap <<GAPInput
+LogTo("makedoc.log");
 if not IsPackageMarkedForLoading("$PKG", "") then
   SetPackagePath("$PKG", ".");
 fi;
 Read("makedoc.g");
 GAPInput
+    ! grep -E "WARNING: non resolved reference" makedoc.log
+    rm -f makedoc.log
 elif [ -f doc/make_doc ] ; then
     notice "Building GAP package documentation (using doc/make_doc)"
     cd doc && ./make_doc && cd ..
